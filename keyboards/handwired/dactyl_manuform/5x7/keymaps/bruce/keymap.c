@@ -1,5 +1,6 @@
 #include QMK_KEYBOARD_H
 
+// COMPILING INSTRUCTIONS: sudo make handwired/dactyl_manuform/5x7:bruce:avrdude
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
@@ -13,8 +14,8 @@
 enum custom_keycodes {
     THUMBS_UP = SAFE_RANGE,
     THUMBS_DOWN,
-    DO,
-    UNDO
+    JOY,
+    ROCKET
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -37,19 +38,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         break;
 
-    case DO:
+    case JOY:
         if (record->event.pressed) {
             // pressed
-            SEND_STRING(SS_LGUI(SS_LSFT("z")));
+            SEND_STRING(":joy:");
         } else {
             // released
         }
         break;
 
-    case UNDO:
+    case ROCKET:
         if (record->event.pressed) {
             // pressed
-            SEND_STRING(SS_LGUI("z"));
+            SEND_STRING(":rocket:");
         } else {
             // released
         }
@@ -158,28 +159,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // Left Hand
         KC_ESC,        KC_EXLM, KC_AT,      KC_HASH, KC_DLR,    KC_PERC,    KC_CIRC,
         KC_TAB,        KC_Q,    KC_W,       KC_E,    KC_R,      KC_T,       KC_LBRC,
-        TD(LSFT_CAPS), KC_A,    KC_S,       KC_D,    KC_F,      KC_G,       KC_LPRN,
+        KC_LSFT,       KC_A,    KC_S,       KC_D,    KC_F,      KC_G,       KC_LPRN,
         KC_LCTL,       KC_Z,    KC_X,       KC_C,    KC_V,      KC_B,
                                 THUMBS_DOWN,      KC_LALT,
 
                                                                 KC_LGUI,        KC_ENT,
-                                                                TT(_NAV),    TT(_NUMPAD),
+                                                                MO(_NAV),    MO(_NUMPAD),
                                                                 THUMBS_DOWN,        THUMBS_UP,
         // Right Hand
                         KC_AMPR,    KC_ASTR,    KC_LPRN,    KC_RPRN,    KC_MINS, KC_EQL,    KC_GRV,
                         KC_RBRC,    KC_Y,       KC_U,       KC_I,       KC_O,    KC_P,      KC_BSLS,
                         KC_RPRN,    KC_H,       KC_J,       KC_K,       KC_L,    KC_SCLN,   KC_QUOT,
                                     KC_N,       KC_M,       KC_COMM,    KC_DOT,  KC_SLSH,   KC_SFTENT,
-                                    UNDO,    DO,
+                                    LGUI(KC_Z),    SGUI(KC_Z),
 
         KC_SPC,        KC_BSPC,
-        TT(_NAV),    TT(_NUMPAD),
+        MO(_NAV),    MO(_NUMPAD),
         KC_HOME,        KC_END
     ),
 	[_NAV] = LAYOUT_5x7(
         KC_TRNS, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6,
         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, RESET,
+        KC_TRNS, KC_TRNS, ROCKET, JOY, THUMBS_UP, KC_TRNS, KC_TRNS,
         KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
         KC_TRNS, KC_TRNS,
         KC_TRNS, KC_TRNS,
